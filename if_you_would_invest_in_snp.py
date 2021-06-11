@@ -16,8 +16,8 @@ start = int(datetime.timestamp(from_date))
 end = int(datetime.timestamp(till_date))
 
 
-def get_prices(ticker, interval = "1mo"):
-    
+def get_prices(ticker, interval="1mo"):
+
     url = "https://query1.finance.yahoo.com/v8/finance/chart/" + ticker
     params = {"period1": start, "period2": end}
     params["interval"] = interval.lower()
@@ -27,20 +27,18 @@ def get_prices(ticker, interval = "1mo"):
     data = requests.get(url=url, params=params, proxies=proxy)
     content = data.json()
     prices = content["chart"]["result"][0]['indicators']['quote'][0]['close']
-    
     return prices
 
-ticker = "^GSPC" # "^GSPC" for s&p500
+ticker = "^GSPC"  # "^GSPC" for s&p500
 prices = get_prices(ticker)
 
 montly_invest = 250
 portfolio = 0
-invested=0
+invested = 0
 
 for i in range(len(prices)):
-    
     portfolio += montly_invest/prices[i]
-    invested +=montly_invest
+    invested += montly_invest
 
 print("invested", invested)
 print("portfolio", portfolio*prices[-1])
